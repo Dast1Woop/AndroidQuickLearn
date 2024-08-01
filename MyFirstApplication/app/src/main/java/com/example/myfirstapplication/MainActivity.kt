@@ -28,6 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         val viewM = MainPageViewM(this)
 
+        userViewModel.user.observe(this, Observer {
+                user:User ->
+            println("user:" + user)
+        })
+
+        userViewModel.error.observe(this, Observer { errorMessage:String ->
+            // Show error message
+            // e.g., showError(errorMessage)
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+        })
+
         btn.setOnClickListener({
             tv.text = getString(R.string.rqsting)
 //            viewM.rqstNet()
@@ -38,16 +49,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun rqstNet() {
-        userViewModel.user.observe(this, Observer {
-            user:User ->
-            println(user)
-        })
-
-        userViewModel.error.observe(this, Observer { errorMessage:String ->
-            // Show error message
-            // e.g., showError(errorMessage)
-            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-        })
 
         // Trigger network request
         userViewModel.getUser(1)
