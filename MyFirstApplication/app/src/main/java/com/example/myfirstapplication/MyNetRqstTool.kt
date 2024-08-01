@@ -4,10 +4,17 @@ import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 
+
+
 class MyNetRqstTool {
+
+    enum class RequestType {
+        GET,POST
+    }
 
     // Create OkHttpClient instance
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -19,11 +26,25 @@ class MyNetRqstTool {
         .build()
 
     // Generic network request function
-    inline fun <reified T : Any> fetchData(url: String): Single<T> {
+    inline fun <reified T : Any> fetchData(url: String,
+                                           requestType: RequestType = RequestType.GET,
+                                           body: RequestBody? = null): Single<T> {
         return Single.create { emitter ->
-            val request = Request.Builder()
+            val requestBuilder = Request.Builder()
                 .url(url)
-                .build()
+
+            when (requestType) {
+                RequestType.GET -> requestBuilder.method("GET", null)
+                else -> {
+                    body?.let {
+                        requestBuilder.method("POST", body)
+                    }?:run {
+                        emitter.onError(IllegalArgumentException("Request body cannot be null for POST requests"))
+                    }
+                }
+            }
+
+            val request = requestBuilder.build()
 
             okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
                 override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {

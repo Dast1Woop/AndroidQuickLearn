@@ -14,6 +14,10 @@ import androidx.lifecycle.Observer
 import  okhttp3.Request
 
 class MainActivity : AppCompatActivity() {
+
+    /***
+     * by viewModels(): This is a Kotlin property delegate provided by the AndroidX library. It handles the creation and management of the UserViewModel instance for you.
+     */
     private val userViewModel: UserViewModel by viewModels()
 
     @SuppressLint("MissingInflatedId")
