@@ -1,4 +1,4 @@
-package com.example.network
+package com.example.myfirstapplication
 
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single
