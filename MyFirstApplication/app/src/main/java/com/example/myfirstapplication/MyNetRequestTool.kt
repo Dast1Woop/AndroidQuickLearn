@@ -2,6 +2,7 @@ package com.example.myfirstapplication
 
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single
+import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -10,7 +11,7 @@ import java.io.IOException
 
 
 
-class MyNetRqstTool {
+class MyNetRequestTool {
 
     enum class RequestType {
         GET,POST
@@ -34,10 +35,10 @@ class MyNetRqstTool {
                 .url(url)
 
             when (requestType) {
-                RequestType.GET -> requestBuilder.method("GET", null)
+                RequestType.GET -> requestBuilder.get()
                 else -> {
                     body?.let {
-                        requestBuilder.method("POST", body)
+                        requestBuilder.post(body)
                     }?:run {
                         emitter.onError(IllegalArgumentException("Request body cannot be null for POST requests"))
                     }
@@ -47,7 +48,7 @@ class MyNetRqstTool {
             val request = requestBuilder.build()
 
             okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
-                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                override fun onResponse(call: Call, response: okhttp3.Response) {
                     response.body?.let { responseBody ->
                         try {
                             val jsonString = responseBody.string()
@@ -57,12 +58,14 @@ class MyNetRqstTool {
                             emitter.onError(e)
                         }
                     } ?: emitter.onError(IOException("Response body is null"))
+
                 }
 
-                override fun onFailure(call: okhttp3.Call, e: IOException) {
+                override fun onFailure(call: Call, e: IOException) {
                     emitter.onError(e)
                 }
             })
+
         }
     }
 }

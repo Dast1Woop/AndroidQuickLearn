@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
             println("user:" + user)
         })
 
+        userViewModel.resp4WaitCall.observe(this, Observer {
+                resp4WaitCall:Resp4WaitCall ->
+            println("okhttp resp4WaitCall:" + resp4WaitCall)
+        })
+
         userViewModel.error.observe(this, Observer { errorMessage:String ->
             // Show error message
             // e.g., showError(errorMessage)
@@ -55,7 +60,14 @@ class MainActivity : AppCompatActivity() {
     private fun rqstNet() {
 
         // Trigger network request
-        userViewModel.getUser(1)
+//        userViewModel.getUser(1)
+        val body =  """
+            {
+             	"keepIds": ["7423375d889845d4a9d46c2ef2108ae3", "03e823eb14344fa5949dfc7bae942853"]
+             }
+            """
+
+        userViewModel.getWaitCall(requestBodyString = body)
     }
 
 
