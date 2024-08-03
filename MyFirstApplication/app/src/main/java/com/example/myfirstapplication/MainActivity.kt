@@ -37,10 +37,9 @@ class MainActivity : AppCompatActivity() {
             println("user:" + user)
         })
 
-        userViewModel.resp4WaitCall.observe(this, Observer {
-                resp4WaitCall:Resp4WaitCall ->
-            println("okhttp resp4WaitCall:" + resp4WaitCall)
-        })
+        userViewModel.resp4WaitCall.subscribe { item:Resp4WaitCall ->
+            println("okhttp Received data: ${item}")
+            }
 
         userViewModel.error.observe(this, Observer { errorMessage:String ->
             // Show error message
