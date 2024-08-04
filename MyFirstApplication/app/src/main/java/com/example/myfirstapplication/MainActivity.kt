@@ -3,6 +3,7 @@ package com.example.myfirstapplication
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import  okhttp3.Request
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val tv = findViewById<TextView>(R.id.textView)
+        val imgV = findViewById<ImageView>(R.id.dic_img)
         val btn = findViewById<Button>(R.id.click_btn)
-        btn.text = "click to rqst net"
+        btn.text = "click to rqst net and Dice!"
 
         val viewM = MainPageViewM(this)
 
@@ -47,12 +49,31 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         })
 
-        btn.setOnClickListener({
-            tv.text = getString(R.string.rqsting)
+        btn.setOnClickListener {
 //            viewM.rqstNet()
 
             rqstNet()
-        })
+
+            //Random不能加 ()，因为nextInt为 伴生类 方法
+            val randomNum = Random.nextInt(6) + 1
+//            var imgName:String
+//             = when randomNum {
+//                1-> imgName = dice_1
+//            }
+
+            //when 后面必须有 ()
+            val imgID = when(randomNum) {
+                1 -> R.drawable.dice_1
+
+                2 -> R.drawable.dice_2
+                3 -> R.drawable.dice_3
+                4 -> R.drawable.dice_4
+                5 -> R.drawable.dice_5
+                else -> R.drawable.dice_6
+            }
+
+            imgV.setImageResource(imgID)
+        }
 
     }
 
