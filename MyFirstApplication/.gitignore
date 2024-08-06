@@ -1,15 +1,62 @@
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log files
+*.log
+
+# Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
+*.iws
+
+# Keystore files
+*.jks
+*.keystore
+
+# User-specific files
+*.suo
+*.swp
+*.swn
+*.ds_store
+
+
+# Generated files
+*.apk
+*.ap_ 
+*.dex
+*.class
+*.jar
+*.aar
+*.d
+*.h
+*.so
+*.o
+
+# Ensure Gradle Wrapper files are included
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# NDK files and build artifacts
+/ndk/
+*.cxx
+*.cpp
+*.h
+*.lib
+*.obj
+*.a
+*.d
+*.cpp.map
+*.c.map
+
+# Additional
+*.tmp
+*.bak
+*.kdbx
+
+# Specific folders
 /captures
 .externalNativeBuild
-.cxx
-local.properties
