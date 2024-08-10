@@ -48,13 +48,13 @@ class MyStateMachine {
         onTransition {
             val validTransition = it as? StateMachine.Transition.Valid ?: return@onTransition
             when(validTransition.sideEffect) {
-                 WaterEventSideEffect.RongHuaSideEffect -> {
+                is WaterEventSideEffect.RongHuaSideEffect -> {
                     Log.d("MyStateMachine", "融化了")
                 }
-                 WaterEventSideEffect.QiHuaSideEffect -> {
+                is WaterEventSideEffect.QiHuaSideEffect -> {
                     Log.d("MyStateMachine", "蒸发了")
                 }
-                 WaterEventSideEffect.YeHuaSideEffect -> {
+                is WaterEventSideEffect.YeHuaSideEffect -> {
                     Log.d("MyStateMachine", "液化了")
 
                 }

@@ -12,8 +12,6 @@ import com.example.statemachinetest.R
 import com.example.statemachinetest.WaterEvent
 
 
-//import android.app.Activity;
-
 class MainActivity : AppCompatActivity() {
     lateinit var sm: MyStateMachine
     lateinit var handler: Handler
