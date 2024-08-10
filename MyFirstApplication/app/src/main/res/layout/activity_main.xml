@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/dic_img"
         app:srcCompat = "@drawable/empty_dice"
-        tools:src="@drawable/dice_1"
+        tools:srcCompat="@drawable/dice_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
