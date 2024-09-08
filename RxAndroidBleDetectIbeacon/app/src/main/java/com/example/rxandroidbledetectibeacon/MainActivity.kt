@@ -11,9 +11,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.polidea.rxandroidble3.RxBleClient
 import com.polidea.rxandroidble3.scan.ScanFilter
 import com.polidea.rxandroidble3.scan.ScanSettings
+import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.Region
@@ -111,6 +113,14 @@ class MainActivity : AppCompatActivity() {
 //
 //    }
 
+
+    val rangingObserver = Observer<Collection<Beacon>> { beacons ->
+        Log.d("iBeacon", "Ranged: ${beacons.count()} beacons")
+        for (beacon: Beacon in beacons) {
+            Log.d("iBeacon", "$beacon about ${beacon.distance} meters away")
+        }
+    }
+
     private fun startScanBle() {
 //        rxAndroidBleCannotDetectIbeacon()
 
@@ -122,17 +132,20 @@ class MainActivity : AppCompatActivity() {
             beaconParsers.add(ibeaconParser)
         }
 
-        beaconMnger.addRangeNotifier { beacons, region ->
-            for (beacon in beacons) {
-                Log.d("iBeacon", "UUID: ${beacon.id1}, Major: ${beacon.id2}, Minor: ${beacon.id3}, RSSI: ${beacon.rssi}")
-            }
-        }
+//        beaconMnger.addRangeNotifier { beacons, region ->
+//            for (beacon in beacons) {
+//                Log.d("iBeacon", "UUID: ${beacon.id1}, Major: ${beacon.id2}, Minor: ${beacon.id3}, RSSI: ${beacon.rssi}")
+//            }
+//        }
 
         //uuid是第二个参数设置
         val region = Region("myRangingUniqueId", null, null, null)
 //        beaconMnger.startMonitoring(region)
+
+        beaconMnger.getRegionViewModel(region).rangedBeacons.observe(this, rangingObserver)
         beaconMnger.startRangingBeacons(region)
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
